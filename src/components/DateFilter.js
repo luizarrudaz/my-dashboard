@@ -1,4 +1,3 @@
-// src/components/DateFilter.js
 import React from 'react';
 
 const DateFilter = ({ startDate, endDate, onDateChange }) => {

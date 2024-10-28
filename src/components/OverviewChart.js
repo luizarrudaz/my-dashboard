@@ -15,14 +15,14 @@ const OverviewChart = ({ view }) => {
         const results = response.data;
 
         const labels = results.map(item => (view === 'Por Ano' ? item.year : item.month));
-        const entriesData = results.map(item => item.total_entries); // Use total_entries
+        const entriesData = results.map(item => item.total_entries); 
 
         setChartData({
           labels,
           datasets: [
             {
               label: 'Vendas',
-              data: entriesData, // Alterado para entradas
+              data: entriesData,
               backgroundColor: 'rgba(150, 90, 200, 0.5)',
               borderColor: 'rgba(150, 90, 200, 1)',
               borderWidth: 2,
@@ -47,7 +47,7 @@ const OverviewChart = ({ view }) => {
             data={chartData}
             options={{
               responsive: true,
-              maintainAspectRatio: false, // Permitir que o gráfico se ajuste ao tamanho do contêiner
+              maintainAspectRatio: false,
               plugins: {
                 legend: {
                   position: 'top',

@@ -4,42 +4,42 @@ nav {
     top: 0;
     width: 100%;
     z-index: 1000;
-    background-color: #161616; /* Cor de fundo da navbar */
+    background-color: #161616;
 }
 
 .container {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Separa logo dos links */
-    max-width: 1400px; /* Limite a largura máxima se necessário */
-    margin: 0 auto; /* Centraliza a navbar */
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
     background-color: #161616;
 }
 
 img {
-    height: 115px; /* Ajuste conforme necessário */
+    height: 115px;
     background-color: #161616;
 }
 
 .nav-links {
     display: flex;
-    gap: 35px; /* Espaçamento entre os links */
-    background-color: #161616; /* Cor de fundo dos links */
+    gap: 35px;
+    background-color: #161616;
     padding: 10px;
-    border-radius: 5px; /* Arredonda os cantos se desejar */
+    border-radius: 5px;
 }
 
 .nav-links a {
-    color: #9B59B6; /* Cor dos links */
+    color: #9B59B6;
     text-decoration: none;
 }
 
 .nav-links a:hover {
-    color: #6F7DFF; /* Efeito ao passar o mouse */
+    color: #6F7DFF;
 }
 
 body {
-    margin: 0; 
-    background-color: #161616; /* Cor de fundo do body */
-    padding-top: 60px; /* Espaçamento para evitar sobreposição da navbar */
+    margin: 0;
+    background-color: #161616;
+    padding-top: 60px;
 }

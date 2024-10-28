@@ -107,7 +107,6 @@ const SalesReport = () => {
 
     setSalesSummary(filteredSummary);
     
-    // Se o filtro de vendedor for limpo, recarrega todos os dados
     if (!summaryVendedorFilter) {
       const fetchSalesSummary = async () => {
         try {
@@ -120,7 +119,7 @@ const SalesReport = () => {
         }
       };
 
-      fetchSalesSummary(); // Recarrega todos os dados da tabela resumo
+      fetchSalesSummary();
     }
   }, [summaryVendedorFilter]);
 

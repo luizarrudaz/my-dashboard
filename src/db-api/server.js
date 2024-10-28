@@ -21,12 +21,10 @@ db.connect((err) => {
     console.log('Conectado ao banco de dados MySQL!');
 });
 
-// Rota para a raiz da aplicação
 app.get('/', (req, res) => {
     res.send('API funcionando!');
 });
 
-// Endpoint para obter produtos
 app.get('/api/produtos', (req, res) => {
     const sql = 'SELECT * FROM produtos';
 
@@ -63,7 +61,6 @@ app.get('/api/reports', (req, res) => {
         }
     });
 });
-
 
 app.get('/api/sales-summary', (req, res) => {
     const query = `
@@ -109,7 +106,6 @@ app.get('/api/summary', (req, res) => {
     });
 });
 
-// Endpoint para obter dados para a criação do gráfico da Home
 app.get('/api/chart-data', (req, res) => {
     const query = `
         SELECT 
@@ -136,7 +132,6 @@ app.get('/api/chart-data', (req, res) => {
     });
 });
 
-// Endpoint para obter dados para o gráfico de vendas
 app.get('/api/sales-data', (req, res) => {
     const { view } = req.query;
 
@@ -165,7 +160,6 @@ app.get('/api/sales-data', (req, res) => {
         res.json(results);
     });
 });
-
 
 const PORT = 5000;
 app.listen(PORT, () => {

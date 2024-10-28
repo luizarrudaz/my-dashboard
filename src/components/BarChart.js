@@ -35,11 +35,11 @@ const ChartComponent = () => {
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
       <h2>Gráfico de Vendas por Produto</h2>
       <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-        <Bar 
-          data={chartData} 
+        <Bar
+          data={chartData}
           options={{
             responsive: true,
-            maintainAspectRatio: false, // Permitir que o gráfico se ajuste ao tamanho do contêiner
+            maintainAspectRatio: false,
             plugins: {
               tooltip: {
                 callbacks: {

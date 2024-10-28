@@ -1,4 +1,3 @@
-// src/components/SalesSummary.js
 import React, { useEffect, useState } from 'react';
 
 const SalesSummary = () => {

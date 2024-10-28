@@ -1,4 +1,3 @@
-// src/pages/Home.js
 import React from 'react';
 import SalesSummary from '../components/SalesSummary';
 import Chart from '../components/BarChart';
