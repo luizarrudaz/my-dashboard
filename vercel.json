@@ -1,16 +1,15 @@
 {
-    "version": 2,
-    "builds": [
+  "version": 2,
+  "builds": [
       {
-        "src": "server.js",
-        "use": "@vercel/node"
+          "src": "src/db-api/server.js",
+          "use": "@vercel/node"
       }
-    ],
-    "routes": [
+  ],
+  "routes": [
       {
-        "src": "/src/db-api/",
-        "dest": "server.js"
+          "src": "/api/(.*)",
+          "dest": "src/db-api/server.js"
       }
-    ]
-  }
-  
+  ]
+}
