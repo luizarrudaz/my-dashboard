@@ -8,10 +8,11 @@ app.use(express.json());
 
 // Conexão com o banco de dados usando a URL
 const db = mysql.createConnection({
-    host: process.env.DB_HOST, // Adicione a variável de ambiente para o host
-    user: process.env.DB_USER, // Adicione a variável de ambiente para o usuário
-    password: process.env.DB_PASSWORD, // Adicione a variável de ambiente para a senha
-    database: process.env.DB_NAME // Adicione a variável de ambiente para o nome do banco
+    host: 'autorack.proxy.rlwy.net',
+    user: 'root',
+    password: 'lzJTHJqDHePokGqdVjLPayIXqddOBUvy',
+    port: 26418,
+    database: 'railway'
 });
 
 
