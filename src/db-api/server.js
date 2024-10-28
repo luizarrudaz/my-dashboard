@@ -6,12 +6,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Conexão com o banco de dados usando a URL
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Config@123',
-    database: 'dashboard-vendas',
+    host: process.env.DB_HOST, // Adicione a variável de ambiente para o host
+    user: process.env.DB_USER, // Adicione a variável de ambiente para o usuário
+    password: process.env.DB_PASSWORD, // Adicione a variável de ambiente para a senha
+    database: process.env.DB_NAME // Adicione a variável de ambiente para o nome do banco
 });
+
 
 db.connect((err) => {
     if (err) {
@@ -21,10 +23,12 @@ db.connect((err) => {
     console.log('Conectado ao banco de dados MySQL!');
 });
 
+// Endpoint de teste
 app.get('/', (req, res) => {
     res.send('API funcionando!');
 });
 
+// Endpoint para obter produtos
 app.get('/api/produtos', (req, res) => {
     const sql = 'SELECT * FROM produtos';
 
@@ -43,6 +47,7 @@ app.get('/api/produtos', (req, res) => {
     });
 });
 
+// Endpoint para relatórios de vendas
 app.get('/api/reports', (req, res) => {
     const query = `
       SELECT produtos.nome AS nome_produto, vendas.data_venda, vendas.quantidade AS quantidade_vendida,
@@ -62,6 +67,7 @@ app.get('/api/reports', (req, res) => {
     });
 });
 
+// Endpoint para resumo de vendas por vendedor
 app.get('/api/sales-summary', (req, res) => {
     const query = `
       SELECT vendedores.nome AS nome_vendedor, 
@@ -84,6 +90,7 @@ app.get('/api/sales-summary', (req, res) => {
     });
 });
 
+// Endpoint para resumo geral
 app.get('/api/summary', (req, res) => {
     const sql = `
       SELECT 
@@ -106,6 +113,7 @@ app.get('/api/summary', (req, res) => {
     });
 });
 
+// Endpoint para dados do gráfico
 app.get('/api/chart-data', (req, res) => {
     const query = `
         SELECT 
@@ -132,6 +140,7 @@ app.get('/api/chart-data', (req, res) => {
     });
 });
 
+// Endpoint para dados de vendas
 app.get('/api/sales-data', (req, res) => {
     const { view } = req.query;
 
@@ -161,7 +170,8 @@ app.get('/api/sales-data', (req, res) => {
     });
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
