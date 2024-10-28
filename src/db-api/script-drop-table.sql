@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS vendas;
+DROP TABLE IF EXISTS produtos;
+DROP TABLE IF EXISTS categorias;
+DROP TABLE IF EXISTS vendedores;

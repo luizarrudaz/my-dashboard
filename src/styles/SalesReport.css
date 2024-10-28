@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300&family=Nunito+Sans:opsz,wght@6..12,300&display=swap');
+
+/* Escopo isolado para SalesReport */
+.sales-report-container {
+    min-height: 100vh;
+    max-width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sales-report-sub-container-1, .sales-report-sub-container-2 {
+    text-align: center;
+    border-radius: 5px;
+    width: 80vw;
+}
+
+.sales-report-sub-container-1 table, .sales-report-sub-container-2 table {
+    border-collapse: separate;
+    border-spacing: 0px 15px;
+    width: 100%;
+}
+
+.sales-report-sub-container-1 th, .sales-report-sub-container-2 th {
+    color: #ffffff;
+    background-color: #383838;
+    padding: 20px;
+    cursor: pointer;
+    border-top: 2px solid rgba(150, 90, 200, 1);
+}
+
+.input-filter {
+    width: 100%; /* Ajusta a largura para ocupar todo o espaço disponível */
+    padding: 5px; /* Adiciona um pouco de padding para melhor visualização */
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+    display: inline-block; /* Permite que o input se alinhe corretamente */
+    vertical-align: middle; /* Alinha verticalmente no meio */
+    height: 100%; /* Faz com que o input ocupe toda a altura da célula */
+  }
+  
+
+.sales-report-sub-container-1 td, .sales-report-sub-container-2 td {
+    padding: 10px;
+    background-color: #232323;
+    color: #ffffff;
+}
+
+.sales-report-sub-container-1 td:first-child, .sales-report-sub-container-2 td:first-child,
+.sales-report-sub-container-1 th:first-child, .sales-report-sub-container-2 th:first-child {
+    border-top-left-radius: 11px;
+    border-bottom-left-radius: 11px;
+}
+
+.sales-report-sub-container-1 td:last-child, .sales-report-sub-container-2 td:last-child, 
+.sales-report-sub-container-1 th:last-child .sales-report-sub-container-2 th:last-child {
+    border-bottom-right-radius: 11px;
+    border-top-right-radius: 11px;
+}
+
+.sales-report-sub-container-1 input[type="text"], .sales-report-sub-container-2 input[type="text"] {
+
+    width: 90%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #3D3D3D;
+    background-color: #383838;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.sales-report-sub-container-1 input[type="text"]::placeholder, .sales-report-sub-container-2 input[type="text"]::placeholder {
+    color: #B3B3B3;
+}
+
+.sales-report-sub-container-1 input[type="text"]:focus, .sales-report-sub-container-2 input[type="text"]:focus{
+    outline: none;
+    border: 1px solid rgba(150, 90, 200, 1);
+}
+
+.sales-report-sub-container-1 tr:hover, .sales-report-sub-container-2 tr:hover {
+    background-color: rgba(150, 90, 200, 0.2);
+}
+
+
+/* Responsividade */
+@media only screen and (max-width: 1024px) {
+    .sales-report-sub-container-1, .sales-report-sub-container-2 {
+        width: 95vw;
+    }
+}
+
+
+@media only screen and (max-width: 630px) {
+    .sales-report-sub-container-1 td {
+        padding-left: 10px; /* Adiciona espaço interno à esquerda */
+    }
+
+    .sales-report-sub-container-1 th, .sales-report-sub-container-2 th{
+        display: none;
+    }
+    .sales-report-sub-container-1 td, .sales-report-sub-container-2 td {
+        display: grid;
+        grid-template-columns: 15ch auto;
+        text-align: left;
+        margin: 5px;
+        padding: 5px;
+        border-radius: 11px;
+    }
+
+    /* Sales Report Sub Container 1° table*/
+    .sales-report-sub-container-1 td:nth-of-type(1)::before { content: "Vendedor : "; margin-right: 5px;}
+    .sales-report-sub-container-1 td:nth-of-type(2)::before { content: "Quantidade Total : "; margin-right: 18px;}
+    .sales-report-sub-container-1 td:nth-of-type(3)::before { content: "Total Vendido : "; margin-right: 5px;}
+    
+    /* Sales Report Sub Container 2° table*/
+    .sales-report-sub-container-2 td:nth-of-type(1)::before {content: "Produto : ";}
+    .sales-report-sub-container-2 td:nth-of-type(2)::before {content: "Data : ";}
+    .sales-report-sub-container-2 td:nth-of-type(3)::before {content: "Quantidade : ";}
+    .sales-report-sub-container-2 td:nth-of-type(4)::before {content: "Preço : ";}
+    .sales-report-sub-container-2 td:nth-of-type(5)::before {content: "Vendedor : ";}
+}

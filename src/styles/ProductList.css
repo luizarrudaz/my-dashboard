@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@300&family=Nunito+Sans:opsz,wght@6..12,300&display=swap');
+
+/* Escopo isolado */
+.product-container {
+    min-height: 100vh;
+    max-width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sub-container {
+    text-align: center;
+    border-radius: 5px;
+    width: 80vw;
+}
+
+.sub-container table {
+    border-collapse: separate;
+    border-spacing: 0px 15px;
+    width: 100%;
+}
+
+.sub-container th {
+    color: #ffffff;
+    background-color: #383838;
+    padding: 20px;
+    cursor: pointer;
+    border-top: 2px solid rgba(150, 90, 200, 1);
+}
+
+.sub-container td {
+    padding: 10px;
+    background-color: #232323;
+    color: #ffffff;
+}
+
+.sub-container td:first-child,
+.sub-container th:first-child {
+    border-top-left-radius: 11px;
+    border-bottom-left-radius: 11px;
+}
+
+.sub-container td:last-child,
+.sub-container th:last-child {
+    border-bottom-right-radius: 11px;
+    border-top-right-radius: 11px;
+}
+
+.sub-container input[type="text"] {
+    width: 90%;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: #383838;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.sub-container input[type="text"]::placeholder {
+    color: #B3B3B3;
+}
+
+.sub-container input[type="text"]:focus {
+    outline: none;
+    border: 1px solid rgba(150, 90, 200, 1);
+}
+
+.sub-container tr:hover {
+    background-color: #333;
+}
+
+/* Responsividade */
+@media only screen and (max-width: 1024px) {
+    .sub-container {
+        width: 95vw;
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .sub-container th {
+        display: none;
+    }
+    .sub-container td {
+        display: grid;
+        grid-template-columns: 15ch auto;
+        text-align: left;
+        margin: 5px;
+        padding: 5px;
+        border-radius: 11px;
+    }
+    .sub-container td:nth-of-type(1)::before {
+        content: "Produto : ";
+    }
+    .sub-container td:nth-of-type(2)::before {
+        content: "Descrição : ";
+    }
+    .sub-container td:nth-of-type(3)::before {
+        content: "Categoria : ";
+    }
+    .sub-container td:nth-of-type(4)::before {
+        content: "Preço : ";
+    }
+    .sub-container td:nth-of-type(5)::before {
+        content: "Vendas : ";
+    }
+}
