@@ -7,22 +7,21 @@ app.use(cors());
 app.use(express.json());
 
 // Conexão com o banco de dados usando a URL
-const db = mysql.createConnection({
+const connection = mysql.createConnection({
     host: 'autorack.proxy.rlwy.net',
     user: 'root',
     password: 'lzJTHJqDHePokGqdVjLPayIXqddOBUvy',
     port: 26418,
     database: 'railway'
-});
-
-
-db.connect((err) => {
+  });
+  
+  connection.connect(err => {
     if (err) {
-        console.error('Erro ao conectar ao banco de dados:', err);
-        return;
+      console.error('Erro ao conectar ao banco de dados:', err);
+      return;
     }
-    console.log('Conectado ao banco de dados MySQL!');
-});
+    console.log('Conectado ao banco de dados!');
+  });
 
 // Endpoint de teste
 app.get('/', (req, res) => {
@@ -33,7 +32,7 @@ app.get('/', (req, res) => {
 app.get('/api/produtos', (req, res) => {
     const sql = 'SELECT * FROM produtos';
 
-    db.query(sql, (err, resultados) => {
+    connection.query(sql, (err, resultados) => {
         if (err) {
             console.error('Erro ao consultar produtos:', err);
             return res.status(500).json({ error: 'Erro ao consultar produtos' });
@@ -58,7 +57,7 @@ app.get('/api/reports', (req, res) => {
       INNER JOIN vendedores ON vendas.vendedor_id = vendedores.id
     `;
 
-    db.query(query, (err, results) => {
+    connection.query(query, (err, results) => {
         if (err) {
             console.error('Erro ao buscar vendas:', err);
             res.status(500).json({ error: 'Erro ao buscar vendas' });
@@ -81,7 +80,7 @@ app.get('/api/sales-summary', (req, res) => {
       ORDER BY total_vendido DESC;
     `;
 
-    db.query(query, (err, results) => {
+    connection.query(query, (err, results) => {
         if (err) {
             console.error("Erro ao recuperar resumo de vendas:", err);
             res.status(500).json({ error: "Erro ao recuperar resumo de vendas" });
@@ -104,7 +103,7 @@ app.get('/api/summary', (req, res) => {
             produtos p ON v.produto_id = p.id) AS totalRevenue
     `;
 
-    db.query(sql, (err, resultados) => {
+    connection.query(sql, (err, resultados) => {
         if (err) {
             console.error('Erro ao consultar resumo:', err);
             return res.status(500).json({ error: 'Erro ao consultar resumo' });
@@ -130,7 +129,7 @@ app.get('/api/chart-data', (req, res) => {
             p.nome;
     `;
 
-    db.query(query, (error, results) => {
+    connection.query(query, (error, results) => {
         if (error) {
             console.error("Erro ao executar a consulta:", error);
             return res.status(500).json({ error: 'Erro ao buscar dados do gráfico' });
@@ -162,7 +161,7 @@ app.get('/api/sales-data', (req, res) => {
         `;
     }
 
-    db.query(query, (err, results) => {
+    connection.query(query, (err, results) => {
         if (err) {
             console.error('Erro ao buscar dados de vendas:', err);
             return res.status(500).json({ error: 'Erro ao buscar dados de vendas' });
