@@ -41,7 +41,6 @@
     height: 100%;
 }
 
-
 .sales-report-sub-container-1 td,
 .sales-report-sub-container-2 td {
     padding: 10px;
@@ -122,39 +121,20 @@
     }
 
     /* Sales Report Sub Container 1° table*/
-    .sales-report-sub-container-1 td:nth-of-type(1)::before {
-        content: "Vendedor : ";
-        margin-right: 5px;
-    }
+    .sales-report-sub-container-1 td:nth-of-type(1)::before {content: "Vendedor : "; margin-right: 5px;}
 
-    .sales-report-sub-container-1 td:nth-of-type(2)::before {
-        content: "Quantidade Total : ";
-        margin-right: 18px;
-    }
+    .sales-report-sub-container-1 td:nth-of-type(2)::before {content: "Quantidade Total : "; margin-right: 18px;}
 
-    .sales-report-sub-container-1 td:nth-of-type(3)::before {
-        content: "Total Vendido : ";
-        margin-right: 5px;
-    }
+    .sales-report-sub-container-1 td:nth-of-type(3)::before {content: "Total Vendido : "; margin-right: 5px;}
 
     /* Sales Report Sub Container 2° table*/
-    .sales-report-sub-container-2 td:nth-of-type(1)::before {
-        content: "Produto : ";
-    }
+    .sales-report-sub-container-2 td:nth-of-type(1)::before {content: "Produto : ";}
 
-    .sales-report-sub-container-2 td:nth-of-type(2)::before {
-        content: "Data : ";
-    }
+    .sales-report-sub-container-2 td:nth-of-type(2)::before {content: "Data : ";}
 
-    .sales-report-sub-container-2 td:nth-of-type(3)::before {
-        content: "Quantidade : ";
-    }
+    .sales-report-sub-container-2 td:nth-of-type(3)::before {content: "Quantidade : ";}
 
-    .sales-report-sub-container-2 td:nth-of-type(4)::before {
-        content: "Preço : ";
-    }
+    .sales-report-sub-container-2 td:nth-of-type(4)::before {content: "Preço : ";}
 
-    .sales-report-sub-container-2 td:nth-of-type(5)::before {
-        content: "Vendedor : ";
-    }
+    .sales-report-sub-container-2 td:nth-of-type(5)::before {content: "Vendedor : ";}
 }
