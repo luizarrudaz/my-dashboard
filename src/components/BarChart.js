@@ -1,8 +1,8 @@
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, LogarithmicScale, BarElement, Tooltip } from 'chart.js';
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
+ChartJS.register(CategoryScale, LinearScale, LogarithmicScale, BarElement, Tooltip);
 
 const ChartComponent = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
@@ -16,10 +16,17 @@ const ChartComponent = () => {
           labels: data.labels,
           datasets: [
             {
-              label: 'Vendas',
-              data: data.values.map(value => Number(value)),
+              label: 'Quantidade Vendida',
+              data: data.quantities.map(Number),
               backgroundColor: 'rgba(150, 90, 200, 0.5)',
               borderColor: 'rgba(150, 90, 200, 1)',
+              borderWidth: 1,
+            },
+            {
+              label: 'Rendimento',
+              data: data.revenues.map((value) => Number(value.replace(/\./g, '').replace(',', '.'))),
+              backgroundColor: 'rgba(100, 200, 150, 0.5)',
+              borderColor: 'rgba(100, 200, 150, 1)',
               borderWidth: 1,
             },
           ],
@@ -33,7 +40,7 @@ const ChartComponent = () => {
 
   return (
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
-      <h2>Gráfico de Vendas por Produto</h2>
+      <h2>Gráfico de Vendas e Rendimento por Produto</h2>
       <div style={{ position: 'relative', width: '100%', height: '400px' }}>
         <Bar
           data={chartData}
@@ -48,27 +55,26 @@ const ChartComponent = () => {
                     return chartData.labels[productIndex];
                   },
                   label: (context) => {
-                    return `Vendas: ${context.raw}`;
+                    if (context.dataset.label === 'Rendimento') {
+                      return `${context.dataset.label}: R$ ${new Intl.NumberFormat('pt-BR').format(context.raw)}`;
+                    }
+                    return `${context.dataset.label}: ${context.raw}`;
                   },
                 },
               },
             },
             scales: {
               x: {
-                title: {
-                  display: false,
-                },
-                ticks: {
-                  display: false,
-                }
+                title: { display: false },
+                ticks: { display: true, autoSkip: true },
               },
               y: {
-                title: {
-                  display: true,
-                  text: 'Quantidade de Vendas'
-                }
-              }
-            }
+                title: { display: true, text: 'Valores' },
+                type: 'logarithmic', 
+                beginAtZero: true,
+                min: 0, 
+              },
+            },
           }}
         />
       </div>

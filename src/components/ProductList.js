@@ -173,7 +173,7 @@ const ProductList = () => {
                   <td>{produto.descricao}</td>
                   <td>{categorias[produto.categoria_id] || 'N/A'}</td>
                   <td>R${parseFloat(produto.preco).toFixed(2)}</td>
-                  <td>{produto.vendas}</td>
+                  <td>{new Intl.NumberFormat('pt-BR').format(produto.vendas.toLocaleString('pt-BR'))}</td>
                 </tr>
               ))
             ) : (

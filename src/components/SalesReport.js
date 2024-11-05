@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/SalesReport.css';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import SalesReportPDF from './SalesReportPDF';
 
 const SalesReport = () => {
   const [sales, setSales] = useState([]);
@@ -51,33 +53,6 @@ const SalesReport = () => {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      const filterInputs = [
-        document.getElementById('nomeProdutoFilter'),
-        document.getElementById('vendedorFilter'),
-        document.getElementById('dataVendaFilter'),
-        document.getElementById('summaryVendedorFilter'),
-      ];
-
-      if (filterInputs.every(input => input && !input.contains(event.target))) {
-        clearFilters();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const clearFilters = () => {
-    setNomeProdutoFilter('');
-    setVendedorFilter('');
-    setDataVendaFilter('');
-    setSummaryVendedorFilter('');
-  };
-
-  useEffect(() => {
     const filtered = sales.filter(sale => {
       const nomeProdutoMatch = !nomeProdutoFilter || sale.nome_produto.toLowerCase().includes(nomeProdutoFilter.toLowerCase());
       const vendedorMatch = !vendedorFilter || sale.nome_vendedor.toLowerCase().includes(vendedorFilter.toLowerCase());
@@ -105,23 +80,14 @@ const SalesReport = () => {
       return !summaryVendedorFilter || summary.nome_vendedor.toLowerCase().includes(summaryVendedorFilter.toLowerCase());
     });
 
-    setSalesSummary(filteredSummary);
-    
-    if (!summaryVendedorFilter) {
-      const fetchSalesSummary = async () => {
-        try {
-          const response = await fetch('/api/sales-summary');
-          if (!response.ok) throw new Error('Erro ao carregar o resumo de vendas');
-          const data = await response.json();
-          setSalesSummary(data);
-        } catch (err) {
-          setError(err.message);
-        }
-      };
+    const sortedSummary = filteredSummary.sort((a, b) => {
+      const aValue = a[summarySortColumn] !== undefined && a[summarySortColumn] !== null ? a[summarySortColumn] : 0;
+      const bValue = b[summarySortColumn] !== undefined && b[summarySortColumn] !== null ? b[summarySortColumn] : 0;
+      return summarySortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+    });
 
-      fetchSalesSummary();
-    }
-  }, [summaryVendedorFilter]);
+    setSalesSummary(sortedSummary);
+  }, [summaryVendedorFilter, salesSummary, summarySortColumn, summarySortDirection]);
 
   const handleSort = (column) => {
     const newDirection = sortColumn === column && sortDirection === 'asc' ? 'desc' : 'asc';
@@ -133,12 +99,6 @@ const SalesReport = () => {
     const newDirection = summarySortColumn === column && summarySortDirection === 'asc' ? 'desc' : 'asc';
     setSummarySortColumn(column);
     setSummarySortDirection(newDirection);
-    const sortedSummary = [...salesSummary].sort((a, b) =>
-      newDirection === 'asc'
-        ? a[column] - b[column]
-        : b[column] - a[column]
-    );
-    setSalesSummary(sortedSummary);
   };
 
   if (loading) return <p>Carregando vendas...</p>;
@@ -147,7 +107,7 @@ const SalesReport = () => {
   return (
     <div className="sales-report-container">
       <h1>Resumo de Vendas por Vendedor</h1>
-  
+
       <div className="sales-report-sub-container-1">
         <table className="sales-summary-table">
           <thead>
@@ -158,7 +118,7 @@ const SalesReport = () => {
             </tr>
             <tr>
               <th>
-                <input id="summaryVendedorFilter" type="text" value={summaryVendedorFilter} onChange={(e) => setSummaryVendedorFilter(e.target.value)} placeholder="Filtrar por Nome do Vendedor" />
+                <input type="text" value={summaryVendedorFilter} onChange={(e) => setSummaryVendedorFilter(e.target.value)} placeholder="Filtrar por Nome do Vendedor" />
               </th>
               <th></th>
               <th></th>
@@ -168,17 +128,36 @@ const SalesReport = () => {
             {salesSummary.map((summary, index) => (
               <tr key={index}>
                 <td>{summary.nome_vendedor}</td>
-                <td>{summary.quantidade_total}</td>
+                <td>{new Intl.NumberFormat('pt-BR').format(summary.quantidade_total)}</td>
                 <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(summary.total_vendido)}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-  
-      <h1>Relatório de Vendas</h1>
-  
-      <div className="sales-report-sub-container-2">
+
+      <h1 className="sales-report">Relatório de Vendas</h1>
+      <PDFDownloadLink
+        document={<SalesReportPDF salesSummary={salesSummary} filteredSales={filteredSales} />}
+        filename="RelatorioVendas.pdf"
+      >
+        {({ loading }) => (
+          <button style={{
+            padding: '10px',
+            border: '2px solid rgba(150, 90, 200, 1)',
+            borderRadius: '5px',
+            backgroundColor: '#232323',
+            color: '#FFFFFF',
+            fontSize: '16px',
+            transition: 'border-color 0.3s ease',
+            cursor: 'pointer',
+          }}>
+            {loading ? 'Carregando...' : 'Exportar PDF'}
+          </button>
+        )}
+      </PDFDownloadLink>
+
+      <div className="sales-report-sub-container-2" id="pdfContent">
         <table className="sales-table">
           <thead>
             <tr>
@@ -190,15 +169,15 @@ const SalesReport = () => {
             </tr>
             <tr>
               <th>
-                <input id="nomeProdutoFilter" type="text" value={nomeProdutoFilter} onChange={(e) => setNomeProdutoFilter(e.target.value)} placeholder="Filtrar por Nome do Produto" />
+                <input type="text" value={nomeProdutoFilter} onChange={(e) => setNomeProdutoFilter(e.target.value)} placeholder="Filtrar por Nome do Produto" />
               </th>
               <th>
-                <input id="dataVendaFilter" type="text" value={dataVendaFilter} onChange={(e) => setDataVendaFilter(e.target.value)} placeholder="Filtrar por Data da Venda" />
+                <input type="text" value={dataVendaFilter} onChange={(e) => setDataVendaFilter(e.target.value)} placeholder="Filtrar por Data da Venda" />
               </th>
               <th></th>
               <th></th>
               <th>
-                <input id="vendedorFilter" type="text" value={vendedorFilter} onChange={(e) => setVendedorFilter(e.target.value)} placeholder="Filtrar por Nome do Vendedor" />
+                <input type="text" value={vendedorFilter} onChange={(e) => setVendedorFilter(e.target.value)} placeholder="Filtrar por Nome do Vendedor" />
               </th>
             </tr>
           </thead>
@@ -207,7 +186,7 @@ const SalesReport = () => {
               <tr key={index}>
                 <td>{sale.nome_produto}</td>
                 <td>{new Date(sale.data_venda).toLocaleDateString('pt-BR')}</td>
-                <td>{sale.quantidade_vendida}</td>
+                <td>{new Intl.NumberFormat('pt-BR').format(sale.quantidade_vendida)}</td>
                 <td>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(sale.preco_total)}</td>
                 <td>{sale.nome_vendedor}</td>
               </tr>
@@ -216,6 +195,7 @@ const SalesReport = () => {
         </table>
       </div>
     </div>
-  )}
+  );
+};
 
 export default SalesReport;

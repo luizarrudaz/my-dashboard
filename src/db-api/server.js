@@ -63,7 +63,6 @@ app.get('/api/reports', (req, res) => {
     });
 });
 
-
 app.get('/api/sales-summary', (req, res) => {
     const query = `
       SELECT vendedores.nome AS nome_vendedor, 
@@ -112,7 +111,8 @@ app.get('/api/chart-data', (req, res) => {
     const query = `
         SELECT 
             p.nome AS produto,
-            SUM(v.quantidade) AS total_vendas
+            SUM(v.quantidade) AS total_vendas,
+            SUM(v.quantidade * p.preco) AS rendimento_total
         FROM 
             produtos p
         JOIN 
@@ -129,30 +129,20 @@ app.get('/api/chart-data', (req, res) => {
             return res.status(500).json({ error: 'Erro ao buscar dados do gráfico' });
         }
         const labels = results.map(row => row.produto);
-        const values = results.map(row => row.total_vendas);
-        res.json({ labels, values });
+        const quantities = results.map(row => row.total_vendas);
+        const revenues = results.map(row => row.rendimento_total);
+        res.json({ labels, quantities, revenues });
     });
 });
 
-app.get('/api/sales-data', (req, res) => {
-    const { view } = req.query;
 
-    let query;
-    if (view === 'year') {
-        query = `
-            SELECT YEAR(data_venda) AS year, COUNT(*) AS total_entries
-            FROM vendas
-            GROUP BY year
-            ORDER BY year
-        `;
-    } else {
-        query = `
-            SELECT DATE_FORMAT(data_venda, '%Y-%m') AS month, COUNT(*) AS total_entries
-            FROM vendas
-            GROUP BY month
-            ORDER BY month
-        `;
-    }
+app.get('/api/sales-data', (req, res) => {
+    const query = `
+        SELECT DATE_FORMAT(data_venda, '%Y-%m') AS month, COUNT(*) AS total_entries
+        FROM vendas
+        GROUP BY month
+        ORDER BY month
+    `;
 
     db.query(query, (err, results) => {
         if (err) {
@@ -163,6 +153,46 @@ app.get('/api/sales-data', (req, res) => {
     });
 });
 
+app.get('/api/vendedores', (req, res) => {
+    const sql = 'SELECT * FROM vendedores';
+
+    db.query(sql, (err, resultados) => {
+        if (err) {
+            console.error('Erro ao consultar vendedores:', err);
+            return res.status(500).json({ error: 'Erro ao consultar vendedores' });
+        }
+
+        res.json(resultados);
+    });
+});
+
+
+app.get('/api/sales-data-vendedor', (req, res) => {
+    const { vendedorId } = req.query;
+    console.log('vendedorId recebido:', vendedorId);
+
+    const query = `
+        SELECT DATE_FORMAT(data_venda, '%Y-%m') AS month, COUNT(*) AS total_entries
+        FROM vendas
+        WHERE vendedor_id = ?
+        GROUP BY month
+        ORDER BY month
+    `;
+
+    db.query(query, [vendedorId], (err, results) => {
+        if (err) {
+            console.error('Erro ao buscar dados de vendas do vendedor:', err);
+            return res.status(500).json({ error: 'Erro ao buscar dados de vendas do vendedor' });
+        }
+
+        console.log('Resultados encontrados:', results);
+        if (results.length === 0) {
+            console.warn(`Nenhum resultado encontrado para o vendedor ID: ${vendedorId}`);
+        }
+
+        res.json(results);
+    });
+});
 
 const PORT = 5000;
 app.listen(PORT, () => {
