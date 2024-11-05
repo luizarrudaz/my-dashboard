@@ -75,7 +75,6 @@ const SalesReport = () => {
     setFilteredSales(sorted);
   }, [nomeProdutoFilter, vendedorFilter, dataVendaFilter, sales, sortColumn, sortDirection]);
 
-  // Filtrando e ordenando o resumo de vendas
   const filteredSummary = salesSummary.filter(summary => {
     const vendedorMatch = !summaryVendedorFilter || summary.nome_vendedor.toLowerCase().includes(summaryVendedorFilter.toLowerCase());
     return vendedorMatch;
