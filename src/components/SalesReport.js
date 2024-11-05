@@ -75,19 +75,22 @@ const SalesReport = () => {
     setFilteredSales(sorted);
   }, [nomeProdutoFilter, vendedorFilter, dataVendaFilter, sales, sortColumn, sortDirection]);
 
-  useEffect(() => {
-    const filteredSummary = salesSummary.filter(summary => {
-      return !summaryVendedorFilter || summary.nome_vendedor.toLowerCase().includes(summaryVendedorFilter.toLowerCase());
-    });
+  // Filtrando e ordenando o resumo de vendas
+  const filteredSummary = salesSummary.filter(summary => {
+    const vendedorMatch = !summaryVendedorFilter || summary.nome_vendedor.toLowerCase().includes(summaryVendedorFilter.toLowerCase());
+    return vendedorMatch;
+  });
 
-    const sortedSummary = filteredSummary.sort((a, b) => {
-      const aValue = a[summarySortColumn] !== undefined && a[summarySortColumn] !== null ? a[summarySortColumn] : 0;
-      const bValue = b[summarySortColumn] !== undefined && b[summarySortColumn] !== null ? b[summarySortColumn] : 0;
-      return summarySortDirection === 'asc' ? aValue - bValue : bValue - aValue;
-    });
+  const sortedSummary = filteredSummary.sort((a, b) => {
+    const aValue = a[summarySortColumn] !== undefined && a[summarySortColumn] !== null ? a[summarySortColumn] : '';
+    const bValue = b[summarySortColumn] !== undefined && b[summarySortColumn] !== null ? b[summarySortColumn] : '';
 
-    setSalesSummary(sortedSummary);
-  }, [summaryVendedorFilter, salesSummary, summarySortColumn, summarySortDirection]);
+    if (summarySortColumn === 'nome_vendedor') {
+      return summarySortDirection === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+    }
+
+    return summarySortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+  });
 
   const handleSort = (column) => {
     const newDirection = sortColumn === column && sortDirection === 'asc' ? 'desc' : 'asc';
@@ -125,7 +128,7 @@ const SalesReport = () => {
             </tr>
           </thead>
           <tbody>
-            {salesSummary.map((summary, index) => (
+            {sortedSummary.map((summary, index) => (
               <tr key={index}>
                 <td>{summary.nome_vendedor}</td>
                 <td>{new Intl.NumberFormat('pt-BR').format(summary.quantidade_total)}</td>
@@ -138,7 +141,7 @@ const SalesReport = () => {
 
       <h1 className="sales-report">Relatório de Vendas</h1>
       <PDFDownloadLink
-        document={<SalesReportPDF salesSummary={salesSummary} filteredSales={filteredSales} />}
+        document={<SalesReportPDF salesSummary={sortedSummary} filteredSales={filteredSales} />}
         filename="RelatorioVendas.pdf"
       >
         {({ loading }) => (
@@ -172,7 +175,7 @@ const SalesReport = () => {
                 <input type="text" value={nomeProdutoFilter} onChange={(e) => setNomeProdutoFilter(e.target.value)} placeholder="Filtrar por Nome do Produto" />
               </th>
               <th>
-                <input type="text" value={dataVendaFilter} onChange={(e) => setDataVendaFilter(e.target.value)} placeholder="Filtrar por Data da Venda" />
+                <input type="text" value={dataVendaFilter} onChange={(e) => setDataVendaFilter(e.target.value)} placeholder="Filtrar por Data (dd/mm/aaaa)" />
               </th>
               <th></th>
               <th></th>
