@@ -29,8 +29,14 @@ O projeto de dashboard é uma aplicação web que permite a visualização e an�
 ### `npm install` `npm start`
 
 ### Necessário instalação do Banco de Dados
-- Instale o MySQL Workbench, crie seu banco e rode em sequência os scripts create e insert.
-- Altere seus dados de connect em: src/db-api/server.js
+- Instale o MySQL Workbench, crie seu banco e rode em sequência os scripts `create` e `insert`.
+- Altere seus dados de conexão em: `src/db-api/server.js`.
+- Execute os comandos para criar e inserir tabelas (ajuste os valores se necessário).
+- (Caso vá utilizar dados de uma API, será necessário alterar as requisições no `server.js`).
 
 # Instancie o Banco de Dados
 ### `node server.js`
+
+# Notas Finais
+- Certifique-se de que o MySQL esteja em execução antes de iniciar a aplicação.
+- Para melhor performance, considere otimizar as consultas ao banco de dados, especialmente em relatórios complexos.
