@@ -22,6 +22,8 @@ const SalesReport = () => {
   const [summarySortColumn, setSummarySortColumn] = useState('total_vendido');
   const [summarySortDirection, setSummarySortDirection] = useState('desc');
 
+  const [generatePDF, setGeneratePDF] = useState(false);
+
   useEffect(() => {
     const fetchSales = async () => {
       try {
@@ -103,6 +105,10 @@ const SalesReport = () => {
     setSummarySortDirection(newDirection);
   };
 
+  const handlePDFClick = () => {
+    setGeneratePDF(true);
+  };
+
   if (loading) return <p>Carregando vendas...</p>;
   if (error) return <p>{error}</p>;
 
@@ -139,12 +145,10 @@ const SalesReport = () => {
       </div>
 
       <h1 className="sales-report">Relatório de Vendas</h1>
-      <PDFDownloadLink
-        document={<SalesReportPDF salesSummary={sortedSummary} filteredSales={filteredSales} />}
-        filename="RelatorioVendas.pdf"
-      >
-        {({ loading }) => (
-          <button style={{
+      {generatePDF === false && (
+        <button
+          onClick={handlePDFClick}
+          style={{
             padding: '10px',
             border: '2px solid rgba(150, 90, 200, 1)',
             borderRadius: '5px',
@@ -154,10 +158,38 @@ const SalesReport = () => {
             transition: 'border-color 0.3s ease',
             cursor: 'pointer',
           }}>
-            {loading ? 'Carregando...' : 'Exportar PDF'}
-          </button>
-        )}
-      </PDFDownloadLink>
+          Exportar PDF
+        </button>
+      )}
+
+      {generatePDF === true && (
+        <PDFDownloadLink
+          document={<SalesReportPDF salesSummary={sortedSummary} filteredSales={filteredSales} />}
+          filename="RelatorioVendas.pdf"
+        >
+          {({ loading }) => (
+            <button
+              onClick={() => {
+                setTimeout(() => {
+                  setGeneratePDF(false);
+                }, 500);
+              }}
+              style={{
+                marginTop: '7px',
+                padding: '10px',
+                border: '2px solid rgba(150, 90, 200, 1)',
+                borderRadius: '5px',
+                backgroundColor: '#232323',
+                color: '#FFFFFF',
+                fontSize: '16px',
+                transition: 'border-color 0.3s ease',
+                cursor: 'pointer',
+              }}>
+              {loading ? 'Carregando...' : 'Baixar PDF'}
+            </button>
+          )}
+        </PDFDownloadLink>
+      )}
 
       <div className="sales-report-sub-container-2" id="pdfContent">
         <table className="sales-table">
