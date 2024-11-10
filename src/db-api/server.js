@@ -27,7 +27,19 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/produtos', (req, res) => {
-    const sql = 'SELECT * FROM produtos';
+    const sql = `
+        SELECT 
+            p.nome AS nome, 
+            p.descricao,
+            c.nome AS categoria_id,
+            p.preco,
+            COALESCE(SUM(v.quantidade), 0) AS total_vendas
+        FROM produtos p
+        INNER JOIN vendas v ON v.produto_id = p.id
+        INNER JOIN categorias c ON p.categoria_id = c.id
+        GROUP BY p.id, p.nome, p.descricao, c.nome, p.preco
+        ORDER BY total_vendas DESC;
+        `;
 
     db.query(sql, (err, resultados) => {
         if (err) {

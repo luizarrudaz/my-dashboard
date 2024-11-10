@@ -9,22 +9,22 @@ INSERT INTO categorias (nome) VALUES
 ('Desktops'),
 ('Perifericos');
 
-INSERT INTO produtos (nome, descricao, categoria_id, preco, vendas, vendedor_id) VALUES
-('Notebook I5 13420H - RTX 4050 6GB', 'É o notebook mais forte nessa faixa de preço, é a melhor opção sem dúvidas!', 1, 7500.00, 346, 1), 
-('Notebook I7 12700H - RTX 4060 8GB', 'Notebook potente para gamers e profissionais.', 1, 8500.00, 249, 2), 
-('Notebook AMD Ryzen 5 - GTX 1650', 'Notebook versátil com bom desempenho para tarefas diárias.', 1, 4800.00, 276, 3),
-('Notebook Ultra Slim - Core i5', 'Design leve e elegante, ideal para quem se desloca.', 1, 4000.00, 331, 4), 
-('Notebook Gamer - Core I9', 'Notebook de alto desempenho para jogos e edição de vídeo.', 1, 12000.00, 264, 1), 
-('PC Gamer Ryzen 5', 'PC ideal para gamers, com ótima relação custo-benefício.', 2, 3700.00, 245, 2), 
-('PC para Escritório Intel Core I3', 'Computador eficiente para tarefas do dia a dia.', 2, 2700.00, 38, 3),
-('PC Montado - Ryzen 7', 'Potente para jogos e multitarefas.', 2, 5000.00, 192, 4),
-('Mouse Gamer RGB', 'Mouse ergonômico com iluminação personalizável.', 3, 270.00, 63, 1),
-('Teclado Mecânico', 'Teclado com switches mecânicos para melhor desempenho.', 3, 350.00, 295, 2),
-('Headset Gamer', 'Headset com som surround e conforto para longas sessões.', 3, 400.00, 233, 3),
-('Monitor 24" Full HD', 'Monitor com alta resolução e ótimo tempo de resposta.', 3, 800.00, 235, 4),
-('Webcam HD', 'Webcam com imagem clara e boa captura de áudio.', 3, 200.00, 0, 1),
-('Mesa para Computador', 'Mesa funcional com espaço para monitor e teclado.', 3, 250.00, 17, 2),
-('Cabo HDMI 2.0', 'Cabo HDMI de alta velocidade para conexão de dispositivos.', 3, 60.00, 34, 3);
+INSERT INTO produtos (nome, descricao, categoria_id, preco, vendedor_id) VALUES
+('Notebook I5 13420H - RTX 4050 6GB', 'É o notebook mais forte nessa faixa de preço, é a melhor opção sem dúvidas!', 1, 7500.00, 1), 
+('Notebook I7 12700H - RTX 4060 8GB', 'Notebook potente para gamers e profissionais.', 1, 8500.00, 2), 
+('Notebook AMD Ryzen 5 - GTX 1650', 'Notebook versátil com bom desempenho para tarefas diárias.', 1, 4800.00, 3),
+('Notebook Ultra Slim - Core i5', 'Design leve e elegante, ideal para quem se desloca.', 1, 4000.00, 4), 
+('Notebook Gamer - Core I9', 'Notebook de alto desempenho para jogos e edição de vídeo.', 1, 12000.00, 1), 
+('PC Gamer Ryzen 5', 'PC ideal para gamers, com ótima relação custo-benefício.', 2, 3700.00, 2), 
+('PC para Escritório Intel Core I3', 'Computador eficiente para tarefas do dia a dia.', 2, 2700.00, 3),
+('PC Montado - Ryzen 7', 'Potente para jogos e multitarefas.', 2, 5000.00, 4),
+('Mouse Gamer RGB', 'Mouse ergonômico com iluminação personalizável.', 3, 270.00, 1),
+('Teclado Mecânico', 'Teclado com switches mecânicos para melhor desempenho.', 3, 350.00, 2),
+('Headset Gamer', 'Headset com som surround e conforto para longas sessões.', 3, 400.00, 3),
+('Monitor 24" Full HD', 'Monitor com alta resolução e ótimo tempo de resposta.', 3, 800.00, 4),
+('Webcam HD', 'Webcam com imagem clara e boa captura de áudio.', 3, 200.00, 1),
+('Mesa para Computador', 'Mesa funcional com espaço para monitor e teclado.', 3, 250.00, 2),
+('Cabo HDMI 2.0', 'Cabo HDMI de alta velocidade para conexão de dispositivos.', 3, 60.00, 3);
 
 INSERT INTO vendas (produto_id, vendedor_id, quantidade, data_venda) VALUES 
 (15, 1, 1, '2024-01-09'), 

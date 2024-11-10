@@ -15,11 +15,11 @@ const ProductList = () => {
   const [sortColumn, setSortColumn] = useState('nome');
   const [sortDirection, setSortDirection] = useState('asc');
 
-  const categorias = {
-    1: "Notebooks",
-    2: "Perifericos",
-    3: "Desktops",
-  };
+  // const categorias = {
+  //   1: "Notebooks",
+  //   2: "Perifericos",
+  //   3: "Desktops",
+  // };
 
   useEffect(() => {
     const fetchProdutos = async () => {
@@ -46,8 +46,8 @@ const ProductList = () => {
     const filtered = produtos.filter(produto => {
       const nomeMatch = !nomeFilter || (produto.nome && produto.nome.toLowerCase().includes(nomeFilter.toLowerCase()));
       const categoriaMatch = !categoriaFilter ||
-        (categorias[produto.categoria_id] && categorias[produto.categoria_id].toLowerCase().includes(categoriaFilter.toLowerCase()));
-      const vendasMatch = !vendasFilter || (produto.vendas && produto.vendas.toString().includes(vendasFilter));
+        (produto.categoria_id && produto.categoria_id.toLowerCase().includes(categoriaFilter.toLowerCase()));
+      const vendasMatch = !vendasFilter || (produto.total_vendas && produto.total_vendas.toString().includes(vendasFilter));
       const precoMatch = !precoFilter ||
         (!isNaN(precoFilter) && produto.preco && produto.preco.toString().includes(precoFilter));
 
@@ -58,7 +58,7 @@ const ProductList = () => {
       const aValue = a[sortColumn] !== undefined && a[sortColumn] !== null ? a[sortColumn] : '';
       const bValue = b[sortColumn] !== undefined && b[sortColumn] !== null ? b[sortColumn] : '';
 
-      const isNumberColumn = sortColumn === 'vendas' || sortColumn === 'preco';
+      const isNumberColumn = sortColumn === 'total_vendas' || sortColumn === 'preco';
 
       if (isNumberColumn) {
         return sortDirection === 'asc'
@@ -125,8 +125,8 @@ const ProductList = () => {
               <th onClick={() => handleSort('preco')}>
                 Preço {sortColumn === 'preco' ? (sortDirection === 'asc' ? '↑' : '↓') : ''}
               </th>
-              <th onClick={() => handleSort('vendas')}>
-                Vendas {sortColumn === 'vendas' ? (sortDirection === 'asc' ? '↑' : '↓') : ''}
+              <th onClick={() => handleSort('total_vendas')}>
+                Vendas {sortColumn === 'total_vendas' ? (sortDirection === 'asc' ? '↑' : '↓') : ''}
               </th>
             </tr>
             <tr>
@@ -171,9 +171,9 @@ const ProductList = () => {
                 <tr key={produto.id}>
                   <td>{produto.nome}</td>
                   <td>{produto.descricao}</td>
-                  <td>{categorias[produto.categoria_id] || 'N/A'}</td>
+                  <td>{produto.categoria_id}</td>
                   <td>R${parseFloat(produto.preco).toFixed(2)}</td>
-                  <td>{new Intl.NumberFormat('pt-BR').format(produto.vendas.toLocaleString('pt-BR'))}</td>
+                  <td>{produto.total_vendas}</td>
                 </tr>
               ))
             ) : (

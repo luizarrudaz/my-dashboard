@@ -24,7 +24,10 @@ const ChartComponent = () => {
             },
             {
               label: 'Rendimento',
-              data: data.revenues.map((value) => Number(value.replace(/\./g, '').replace(',', '.'))),
+              data: data.revenues.map((value) => {
+                const numericValue = parseFloat(value.replace(/\./g, '').replace(',', '.'));
+                return numericValue;
+              }),
               backgroundColor: 'rgba(100, 200, 150, 0.5)',
               borderColor: 'rgba(100, 200, 150, 1)',
               borderWidth: 1,
@@ -32,7 +35,6 @@ const ChartComponent = () => {
           ],
         });
       } catch (error) {
-        console.error("Erro ao carregar dados do gráfico:", error);
       }
     };
     fetchChartData();
@@ -56,7 +58,11 @@ const ChartComponent = () => {
                   },
                   label: (context) => {
                     if (context.dataset.label === 'Rendimento') {
-                      return `${context.dataset.label}: R$ ${new Intl.NumberFormat('pt-BR').format(context.raw)}`;
+                      const value = Number(context.raw);
+                      if (!isNaN(value)) {
+                        return `${context.dataset.label}: R$ ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value / 100)}`;
+                      }
+                      return `${context.dataset.label}: R$ 0,00`;
                     }
                     return `${context.dataset.label}: ${context.raw}`;
                   },
@@ -70,9 +76,9 @@ const ChartComponent = () => {
               },
               y: {
                 title: { display: true, text: 'Valores' },
-                type: 'logarithmic', 
-                beginAtZero: true,
-                min: 0, 
+                type: 'logarithmic',
+                beginAtZero: false,
+                min: 1,
               },
             },
           }}

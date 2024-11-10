@@ -17,7 +17,6 @@ CREATE TABLE produtos (
 	descricao VARCHAR(255) NOT NULL,
 	categoria_id INT,
 	preco DECIMAL(10, 2) NOT NULL,
-	vendas INT NOT NULL,
 	vendedor_id INT,
 	FOREIGN KEY (categoria_id) REFERENCES categorias(id),
 	FOREIGN KEY (vendedor_id) REFERENCES vendedores(id)
