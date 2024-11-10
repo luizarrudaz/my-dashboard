@@ -37,7 +37,7 @@ const SalesSummary = () => {
           <p>{summary.totalProducts}</p>
         </div>
         <div style={cardStyle}>
-          <h3>Total de Vendas</h3>
+          <h3>Total de Produtos Vendidos</h3>
           <p>{summary.totalSales}</p>
         </div>
         <div style={cardStyle}>
