@@ -26,7 +26,14 @@ O projeto de dashboard é uma aplicação web que permite a visualização e an�
 
 -----------------------------------------
 # Instalação das Dependências do Node
-### `npm install` `npm start`
+
+```
+npm install
+``` 
+
+```
+npm start
+```
 
 ### Necessário instalação do Banco de Dados
 - Instale o MySQL Workbench, crie seu banco e rode em sequência os scripts `create` e `insert`.
